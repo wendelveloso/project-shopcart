@@ -1,12 +1,47 @@
-# React + Vite
+# project-shopcart
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Um projeto de loja online feito com React e Vite, com funcionalidades de carrinho de compras, checkout e gerenciamento de produtos.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologias usadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React
+- Vite
+- Material UI (MUI)
+- React Router
+- Context API para gerenciamento de estado do carrinho
 
-## Expanding the ESLint configuration
+## 🎯 Funcionalidades
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Listagem de produtos
+- Adicionar, remover e alterar quantidade no carrinho
+- Checkout com resumo dos itens e total
+- Navegação entre páginas
+- Layout responsivo para mobile e desktop
+
+## 💻 Como rodar o projeto
+
+1. Clone o repositório:
+
+   ```bash
+   git clone https://github.com/wendelveloso/project-shopcart.git
+   cd project-shopcart
+
+   ```
+
+2. Instale as dependências:
+
+    ```bash
+    npm install
+    ```
+
+3. Rode o projeto em modo de desenvolvimento:
+
+    ```bash
+    npm run dev
+    ```
+
+## 🤝 Contribuindo
+Pull requests são bem-vindos! Para mudanças grandes, por favor abra uma issue antes para discutirmos.
+
+## 📝 Licença
+Este projeto está licenciado sob a licença MIT.

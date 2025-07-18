@@ -2,6 +2,14 @@
 
 Um projeto de loja online feito com React e Vite, com funcionalidades de carrinho de compras, checkout e gerenciamento de produtos.
 
+![Preview do ShopCart](./public/banner-project-shopcart.png)
+
+## 🌐 Acesse o Projeto
+
+[![Deploy on Vercel](https://img.shields.io/badge/Deploy-Vercel-000?logo=vercel)](https://project-shopcart-self.vercel.app/)
+
+
+
 ## 🚀 Tecnologias usadas
 
 - React
@@ -18,7 +26,7 @@ Um projeto de loja online feito com React e Vite, com funcionalidades de carrinh
 - Navegação entre páginas
 - Layout responsivo para mobile e desktop
 
-## 💻 Como rodar o projeto
+## 💻 Como rodar o projeto localmente
 
 1. Clone o repositório:
 

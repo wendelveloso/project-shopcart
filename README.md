@@ -52,4 +52,6 @@ Um projeto de loja online feito com React e Vite, com funcionalidades de carrinh
 Pull requests são bem-vindos! Para mudanças grandes, por favor abra uma issue antes para discutirmos.
 
 ## 📝 Licença
-Este projeto está licenciado sob a licença MIT.
+Este projeto está licenciado sob a licença MIT. 
+<br>
+[MIT License](./LICENSE).

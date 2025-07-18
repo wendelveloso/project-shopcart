@@ -1,0 +1,180 @@
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  Stack,
+  TextField,
+} from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../contexts/CartContext";
+import FloatingCheckoutButton from "../components/FloatingCheckoutButton";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+
+const API_URL = "https://fakestoreapi.com/products";
+
+export default function Products() {
+  const [produtos, setProdutos] = useState([]);
+  const [filtroCategoria, setFiltroCategoria] = useState("Todos");
+  const [busca, setBusca] = useState("");
+
+  const { carrinho, adicionarAoCarrinho, total, removerItemInteiro } =
+    useCart();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchProdutos() {
+      try {
+        const response = await fetch(API_URL);
+        if (!response.ok) {
+          throw new Error("Erro ao buscar produtos");
+        }
+        const data = await response.json();
+        setProdutos(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchProdutos();
+  }, []);
+
+  const produtosFiltrados = produtos
+    .filter(
+      (p) => filtroCategoria === "Todos" || p.category === filtroCategoria
+    )
+    .filter((p) => p.title.toLowerCase().includes(busca.toLowerCase()));
+
+  const categorias = ["Todos", ...new Set(produtos.map((p) => p.category))];
+
+  const irParaCheckout = () => {
+    navigate("/checkout", { state: { carrinho } });
+  };
+
+  const irParaDetalhes = (id) => {
+    navigate(`/products/${id}`);
+  };
+
+  return (
+    <Box sx={{ p: 4, position: "relative" }}>
+      <Box display="flex" justifyContent="flex-end" mb={2}>
+        <TextField
+          size="small"
+          variant="outlined"
+          label="Buscar produtos"
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          sx={{
+            maxWidth: 500,
+            minWidth: {
+              xs: 200,
+              sm: 250,
+              md: 300,
+              backgroundColor: "#fff"
+            },
+          }}
+        />
+      </Box>
+
+      <Stack direction="row" spacing={1} mb={4}>
+        {categorias.map((cat) => (
+          <Button
+            key={cat}
+            variant={cat === filtroCategoria ? "contained" : "outlined"}
+            onClick={() => setFiltroCategoria(cat)}
+            sx={{
+              maxWidth: 140,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              fontSize: {
+                xs: "0.65rem",
+                sm: "0.8rem",
+                md: "1rem",
+              },
+            }}
+          >
+            {cat}
+          </Button>
+        ))}
+      </Stack>
+
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {
+            xs: "repeat(2, 1fr)",
+            sm: "repeat(auto-fill, minmax(240px, 1fr))",
+          },
+          gap: 3,
+        }}
+      >
+        {produtosFiltrados.map((produto) => (
+          <Card
+            key={produto.id}
+            sx={{
+              height: "100%",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
+            }}
+          >
+            <CardMedia
+              component="img"
+              height="160"
+              image={produto.image}
+              alt={produto.title}
+              onClick={() => irParaDetalhes(produto.id)}
+            />
+            <CardContent onClick={() => irParaDetalhes(produto.id)}>
+              <Typography
+                variant="h6"
+                noWrap
+                sx={{
+                  maxWidth: {
+                    xs: "140px",
+                    sm: "100%",
+                  },
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {produto.title}
+              </Typography>
+              <Typography variant="subtitle1" color="text.secondary">
+                R$ {produto.price.toFixed(2)}
+              </Typography>
+            </CardContent>
+
+            <Box sx={{ mt: "auto", px: 2, pb: 2 }}>
+              <Button
+                variant="contained"
+                size="small"
+                fullWidth
+                startIcon={
+                  <ShoppingCartIcon fontSize="small" sx={{ opacity: 0.7 }} />
+                }
+                sx={{ fontSize: "0.75rem", py: 0.5 }}
+                onClick={() => adicionarAoCarrinho(produto)}
+              >
+                Adicionar
+              </Button>
+            </Box>
+          </Card>
+        ))}
+      </Box>
+
+      <FloatingCheckoutButton
+        carrinho={carrinho}
+        total={total}
+        disabled={total === 0}
+        onCheckout={irParaCheckout}
+        onRemoveItem={removerItemInteiro}
+      />
+    </Box>
+  );
+}

@@ -8,6 +8,7 @@ import {
   Typography,
   Stack,
   TextField,
+  Tooltip,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
@@ -151,21 +152,35 @@ export default function Products() {
               onClick={() => irParaDetalhes(produto.id)}
             />
             <CardContent onClick={() => irParaDetalhes(produto.id)}>
-              <Typography
-                variant="h7"
-                noWrap
-                sx={{
-                  maxWidth: {
-                    xs: "140px",
-                    sm: "100%",
-                  },
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                }}
-              >
-                {produto.title}
-              </Typography>
+              <Tooltip title={produto.title}>
+                <Typography
+                  variant="h7"
+                  title={produto.title}
+                  sx={{
+                    whiteSpace: {
+                      xs: "normal",
+                      sm: "nowrap",
+                    },
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    display: {
+                      xs: "-webkit-box",
+                      sm: "block",
+                    },
+                    WebkitBoxOrient: "vertical",
+                    WebkitLineClamp: {
+                      xs: 2,
+                      sm: "unset",
+                    },
+                    height: {
+                      xs: "2.8em",
+                      sm: "auto",
+                    },
+                  }}
+                >
+                  {produto.title}
+                </Typography>
+              </Tooltip>
               <Typography variant="subtitle1" color="text.secondary">
                 R$ {produto.price.toFixed(2)}
               </Typography>

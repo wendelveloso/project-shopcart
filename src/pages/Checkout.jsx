@@ -51,7 +51,24 @@ export default function Checkout() {
     );
 
   return (
-    <Box sx={{ p: 4, maxWidth: 900, margin: "auto" }}>
+    <Box
+      sx={{
+        pt: {
+          xs: 4,
+          sm: 6,
+        },
+        px: {
+          xs: 1,
+          sm: 4,
+        },
+        pb: {
+          xs: 3,
+          sm: 4,
+        },
+        maxWidth: 900,
+        margin: "auto",
+      }}
+    >
       <Stack
         direction="row"
         spacing={1}
@@ -75,6 +92,7 @@ export default function Checkout() {
           gridTemplateColumns: "1fr",
           [theme.breakpoints.down("sm")]: {
             gridTemplateColumns: "repeat(2, 1fr)",
+            gap: 1,
           },
         })}
       >
@@ -89,10 +107,12 @@ export default function Checkout() {
               justifyContent: "space-between",
               gap: 2,
               minHeight: 100,
+
               [theme.breakpoints.down("sm")]: {
                 flexDirection: "column",
                 alignItems: "flex-start",
                 minHeight: "auto",
+                maxWidth: "100%",
               },
             })}
           >
@@ -109,7 +129,7 @@ export default function Checkout() {
             >
               <img
                 src={produto.image}
-                alt={produto.name}
+                alt={produto.title}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             </Box>
@@ -121,31 +141,110 @@ export default function Checkout() {
                 display: "flex",
                 flexDirection: "column",
                 gap: 0.5,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                overflowWrap: "break-word",
+                wordBreak: "break-word",
               }}
             >
-              <Typography variant="h6" noWrap>
-                {produto.name}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" noWrap>
-                Valor unitário: R$ {produto.price.toFixed(2)}
+              <Typography
+                variant="h6"
+                sx={{
+                  overflowWrap: "break-word",
+                  wordBreak: "break-word",
+                  fontSize: {
+                    xs: "0.75rem",
+                    sm: "0.9rem",
+                    md: "1rem",
+                  },
+                }}
+              >
+                {produto.title}
               </Typography>
 
-              <Stack direction="row" alignItems="center" spacing={1} mt={1}>
+              <Stack
+                direction={{
+                  xs: "column",
+                  sm: "row",
+                }}
+                spacing={0.5}
+                alignItems="flex-start"
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{
+                    fontSize: {
+                      xs: "0.7rem",
+                      sm: "0.85rem",
+                    },
+                  }}
+                >
+                  Valor unitário:
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: {
+                      xs: "0.9rem",
+                      sm: "0.8rem",
+                    },
+                  }}
+                >
+                  R$ {produto.price.toFixed(2)}
+                </Typography>
+              </Stack>
+
+              <Stack direction="row" alignItems="center" mt={1} gap={0.5}>
                 <Button
                   variant="outlined"
                   size="small"
                   onClick={() => diminuirQuantidade(produto)}
+                  sx={{
+                    minWidth: 60,
+                    px: 1.5,
+                    [theme.breakpoints.down("sm")]: {
+                      minWidth: 50,
+                      px: 1,
+                      fontSize: "0.7rem",
+                    },
+                  }}
                 >
                   -
                 </Button>
-                <Typography>{quantity}</Typography>
+
+                <Typography
+                  sx={{
+                    minWidth: 28,
+                    px: 1,
+                    py: 0.5,
+                    textAlign: "center",
+                    fontSize: {
+                      xs: "0.75rem",
+                      sm: "0.875rem",
+                    },
+                    fontWeight: 800,
+                    borderRadius: 1,
+                    backgroundColor: "#f0f0f0",
+                    color: "#333",
+                  }}
+                >
+                  {quantity}
+                </Typography>
+
                 <Button
                   variant="outlined"
                   size="small"
                   onClick={() => adicionarAoCarrinho(produto)}
+                  sx={{
+                    minWidth: 60,
+                    px: 1.5,
+                    [theme.breakpoints.down("sm")]: {
+                      minWidth: 50,
+                      px: 1,
+                      fontSize: "0.7rem",
+                    },
+                  }}
                 >
                   +
                 </Button>
@@ -168,26 +267,33 @@ export default function Checkout() {
                 },
               }}
             >
-              <Typography variant="subtitle1" fontWeight="bold">
-                Total: R${" "}
-                {(produto.price * quantity).toLocaleString("pt-BR", {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </Typography>
-              <IconButton
-                color="error"
-                size="small"
-                onClick={() => removerItem(produto.id)}
-                sx={{
-                  mt: 1,
-                  [theme.breakpoints.down("sm")]: {
-                    mt: 0,
-                  },
-                }}
+              <Stack
+                direction={{ xs: "row", sm: "column" }}
+                justifyContent={{ xs: "space-between", sm: "flex-end" }}
+                alignItems={{ xs: "center", sm: "flex-end" }}
+                sx={{ width: "100%", mt: 1 }}
               >
-                <DeleteIcon />
-              </IconButton>
+                <Typography
+                  variant="subtitle2"
+                  sx={{
+                    fontWeight: 600,
+                    whiteSpace: "nowrap",
+                    fontSize: {
+                      xs: "0.75rem",
+                      sm: "1rem",
+                    },
+                  }}
+                >
+                  Total: R$ {(produto.price * quantity).toFixed(2)}
+                </Typography>
+
+                <IconButton
+                  color="error"
+                  onClick={() => removerDoCarrinho(produto)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Stack>
             </Box>
           </Paper>
         ))}

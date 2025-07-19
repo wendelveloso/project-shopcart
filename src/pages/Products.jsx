@@ -60,7 +60,23 @@ export default function Products() {
   };
 
   return (
-    <Box sx={{ p: 4, position: "relative" }}>
+    <Box
+      sx={{
+        pt: {
+          xs: 4,
+          sm: 6,
+        },
+        px: {
+          xs: 1,
+          sm: 4,
+        },
+        pb: {
+          xs: 3,
+          sm: 4,
+        },
+        position: "relative",
+      }}
+    >
       <Box display="flex" justifyContent="flex-end" mb={2}>
         <TextField
           size="small"
@@ -74,24 +90,26 @@ export default function Products() {
               xs: 200,
               sm: 250,
               md: 300,
-              backgroundColor: "#fff"
+              backgroundColor: "#fff",
             },
           }}
         />
       </Box>
 
-      <Stack direction="row" spacing={1} mb={4}>
+      <Stack direction="row" spacing={1} mb={4} flexWrap="wrap" rowGap={1}>
         {categorias.map((cat) => (
           <Button
             key={cat}
             variant={cat === filtroCategoria ? "contained" : "outlined"}
             onClick={() => setFiltroCategoria(cat)}
             sx={{
-              maxWidth: 140,
-              overflow: "hidden",
+              minHeight: 40,
+              maxWidth: 155,
+              minWidth: 60,
+              wordBreak: "break-word",
               textOverflow: "ellipsis",
               fontSize: {
-                xs: "0.65rem",
+                xs: "0.60rem",
                 sm: "0.8rem",
                 md: "1rem",
               },
@@ -109,7 +127,10 @@ export default function Products() {
             xs: "repeat(2, 1fr)",
             sm: "repeat(auto-fill, minmax(240px, 1fr))",
           },
-          gap: 3,
+          gap: {
+            xs: 1.5,
+            sm: 3,
+          },
         }}
       >
         {produtosFiltrados.map((produto) => (
@@ -131,7 +152,7 @@ export default function Products() {
             />
             <CardContent onClick={() => irParaDetalhes(produto.id)}>
               <Typography
-                variant="h6"
+                variant="h7"
                 noWrap
                 sx={{
                   maxWidth: {

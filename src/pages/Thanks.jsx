@@ -4,7 +4,6 @@ import {
   Typography,
   Button,
   Paper,
-  Stack,
   Tooltip,
   Divider,
 } from "@mui/material";
@@ -92,9 +91,12 @@ export default function Thanks() {
                 </Typography>
 
                 <Typography
-                  sx={{ flex: 1, textAlign: "right", fontWeight: "bold" }}
+                  sx={{ flex: 1, textAlign: "right", fontWeight: "small" }}
                 >
-                  R$ {(produto.price * quantity).toFixed(2)}
+                  R${" "}
+                  {(produto.price * quantity).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                  })}
                 </Typography>
 
                 {index !== array.length - 1 && (

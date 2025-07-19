@@ -10,6 +10,8 @@ export default function Layout() {
         sx={{
           minHeight: "100vh",
           backgroundColor: "#F7F9FB",
+          overflowX: "hidden",
+          fontFamily: "Roboto",
         }}
       >
         <Header />

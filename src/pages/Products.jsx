@@ -150,8 +150,9 @@ export default function Products() {
               image={produto.image}
               alt={produto.title}
               onClick={() => irParaDetalhes(produto.id)}
+              sx={{ cursor: "pointer" }}
             />
-            <CardContent onClick={() => irParaDetalhes(produto.id)}>
+            <CardContent>
               <Tooltip title={produto.title}>
                 <Typography
                   variant="h7"

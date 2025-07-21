@@ -36,7 +36,7 @@ export default function FloatingCheckoutButton({
         bgcolor: minimized ? "none" : "background.paper",
         p: minimized ? 1 : 2,
         width: minimized ? 56 : hasItems ? 320 : 255,
-        height: minimized ? 56 : hasItems ? 380 : 180,
+        height: minimized ? 56 : hasItems ? 380 : 160,
         overflow: minimized ? "visible" : "hidden",
         display: "flex",
         flexDirection: "column",
@@ -76,7 +76,7 @@ export default function FloatingCheckoutButton({
         <>
           <Box
             sx={{
-              display: "flex",
+              display: hasItems ? "flex" : "none",
               flexDirection: "column",
               gap: 1,
               mb: 1,

@@ -92,6 +92,12 @@ export default function Products() {
               sm: 250,
               md: 300,
               backgroundColor: "#fff",
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#1976d2",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#42a5f5",
+              },
             },
           }}
         />

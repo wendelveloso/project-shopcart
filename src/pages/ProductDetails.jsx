@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
-
 export default function ProductDetails() {
   const { id } = useParams();
   const API_URL = `https://fakestoreapi.com/products/${id}`;

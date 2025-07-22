@@ -189,7 +189,10 @@ export default function Products() {
                 </Typography>
               </Tooltip>
               <Typography variant="subtitle1" color="text.secondary">
-                R$ {produto.price.toFixed(2)}
+                R$ {produto.price.toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
               </Typography>
             </CardContent>
 

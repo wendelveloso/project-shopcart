@@ -284,7 +284,10 @@ export default function Checkout() {
                     },
                   }}
                 >
-                  Total: R$ {(produto.price * quantity).toFixed(2)}
+                  Total: R$ {(produto.price * quantity).toLocaleString("pt-BR", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
                 </Typography>
 
                 <IconButton

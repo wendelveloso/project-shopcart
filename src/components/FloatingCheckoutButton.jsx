@@ -151,10 +151,11 @@ export default function FloatingCheckoutButton({
                       {produto.title || produto.name}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      R$ {produto.price.toLocaleString("pt-BR", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                      R${" "}
+                      {produto.price.toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </Typography>
                   </Box>
                 </Box>

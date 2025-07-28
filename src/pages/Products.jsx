@@ -9,12 +9,14 @@ import {
   Stack,
   TextField,
   Tooltip,
+  CircularProgress,
 } from "@mui/material";
 
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
 import FloatingCheckoutButton from "../components/FloatingCheckoutButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import CheckIcon from "@mui/icons-material/Check";
 
 const API_URL = "https://fakestoreapi.com/products";
 
@@ -22,6 +24,9 @@ export default function Products() {
   const [produtos, setProdutos] = useState([]);
   const [filtroCategoria, setFiltroCategoria] = useState("Todos");
   const [busca, setBusca] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [feedbackAdicao, setFeedbackAdicao] = useState({});
+  const [animando, setAnimando] = useState({});
 
   const { carrinho, adicionarAoCarrinho, total, removerItemInteiro } =
     useCart();
@@ -39,10 +44,23 @@ export default function Products() {
         setProdutos(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     }
     fetchProdutos();
   }, []);
+
+  const handleAdicionar = (produto) => {
+    adicionarAoCarrinho(produto);
+    setFeedbackAdicao((prev) => ({ ...prev, [produto.id]: true }));
+
+    setAnimando((prev) => ({ ...prev, [produto.id]: true }));
+
+    setTimeout(() => {
+      setFeedbackAdicao((prev) => ({ ...prev, [produto.id]: false }));
+    }, 1000);
+  };
 
   const produtosFiltrados = produtos
     .filter(
@@ -55,10 +73,16 @@ export default function Products() {
   const irParaCheckout = () => {
     navigate("/checkout", { state: { carrinho } });
   };
-
   const irParaDetalhes = (id) => {
     navigate(`/products/${id}`);
   };
+
+  if (loading)
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Box
@@ -162,7 +186,6 @@ export default function Products() {
               <Tooltip title={produto.title}>
                 <Typography
                   variant="h7"
-                  title={produto.title}
                   sx={{
                     whiteSpace: {
                       xs: "normal",
@@ -189,10 +212,11 @@ export default function Products() {
                 </Typography>
               </Tooltip>
               <Typography variant="subtitle1" color="text.secondary">
-                R$ {produto.price.toLocaleString("pt-BR", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                R${" "}
+                {produto.price.toLocaleString("pt-BR", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
               </Typography>
             </CardContent>
 
@@ -201,13 +225,64 @@ export default function Products() {
                 variant="contained"
                 size="small"
                 fullWidth
-                startIcon={
-                  <ShoppingCartIcon fontSize="small" sx={{ opacity: 0.7 }} />
-                }
-                sx={{ fontSize: "0.75rem", py: 0.5 }}
-                onClick={() => adicionarAoCarrinho(produto)}
+                onClick={() => handleAdicionar(produto)}
+                sx={{
+                  fontSize: "0.75rem",
+                  py: 0.5,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  overflow: "hidden",
+                  transition: "all 0.3s ease-in-out",
+                }}
               >
-                Adicionar
+                {feedbackAdicao[produto.id] ? (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                    }}
+                  >
+                    <CheckIcon
+                      fontSize="small"
+                      sx={{
+                        color: "white",
+                        stroke: "white",
+                        strokeWidth: 2,
+                        strokeLinecap: "round",
+                        strokeLinejoin: "miter",
+                        fill: "none",
+                        strokeDasharray: 50,
+                        strokeDashoffset: 50,
+                        animation: "drawCheck 0.8s forwards ease",
+                        "@keyframes drawCheck": {
+                          to: {
+                            strokeDashoffset: 0,
+                          },
+                        },
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      animation: animando[produto.id]
+                        ? "slideIn 0.4s ease forwards"
+                        : "none",
+                      "@keyframes slideIn": {
+                        from: { transform: "translateX(-180px)", opacity: 0 },
+                        to: { transform: "translateX(0)", opacity: 1 },
+                      },
+                    }}
+                  >
+                    <ShoppingCartIcon fontSize="small" sx={{ opacity: 0.7 }} />
+                    Adicionar
+                  </Box>
+                )}
               </Button>
             </Box>
           </Card>

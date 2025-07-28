@@ -9,9 +9,10 @@ import {
   Button,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import CheckIcon from "@mui/icons-material/Check";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../contexts/CartContext";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -21,6 +22,8 @@ export default function ProductDetails() {
   const [error, setError] = useState(null);
   const { adicionarAoCarrinho } = useCart();
   const navigate = useNavigate();
+
+  const [feedbackAdicao, setFeedbackAdicao] = useState(false);
 
   useEffect(() => {
     async function fetchProduto() {
@@ -42,6 +45,15 @@ export default function ProductDetails() {
 
     fetchProduto();
   }, [id]);
+
+  const handleAdicionar = () => {
+    adicionarAoCarrinho(produto);
+    setFeedbackAdicao(true);
+
+    setTimeout(() => {
+      navigate("/products");
+    }, 1000);
+  };
 
   if (loading)
     return (
@@ -121,17 +133,58 @@ export default function ProductDetails() {
           <Button
             variant="contained"
             color="primary"
-            startIcon={
-              <ShoppingCartIcon fontSize="small" sx={{ opacity: 0.7 }} />
-            }
-            sx={{ mt: 4 }}
-            onClick={() => {
-              adicionarAoCarrinho(produto);
-              navigate("/products");
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              minWidth: 140,
+              maxWidth: 140,
+              mt: 4,
+              height: 36,
             }}
+            onClick={handleAdicionar}
           >
-            Adicionar
+            {feedbackAdicao ? (
+              <CheckIcon
+                fontSize="small"
+                sx={{
+                  stroke: "white",
+                  strokeWidth: 2,
+                  fill: "none",
+                  strokeDasharray: 50,
+                  strokeDashoffset: 50,
+                  animation: "drawCheck 0.6s forwards linear",
+                  strokeLinecap: "round",
+                  strokeLinejoin: "round",
+                }}
+              />
+            ) : (
+              <>
+                <ShoppingCartIcon
+                  fontSize="small"
+                  sx={{ opacity: 0.7, mr: 1 }}
+                />
+                <Box
+                  component="span"
+                  sx={{
+                    userSelect: "none",
+                  }}
+                >
+                  Adicionar
+                </Box>
+              </>
+            )}
           </Button>
+
+          <style>
+            {`
+              @keyframes drawCheck {
+                to {
+                  stroke-dashoffset: 0;
+                }
+              }
+            `}
+          </style>
         </Box>
       </Paper>
     </>

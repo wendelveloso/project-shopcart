@@ -12,6 +12,7 @@ import { useCart } from "../contexts/CartContext";
 import { useTheme } from "@mui/material/styles";
 
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 export default function Checkout() {
   const theme = useTheme();
@@ -37,15 +38,28 @@ export default function Checkout() {
   };
 
   const voltarParaProdutos = () => navigate("/products");
-
   if (Object.keys(carrinho).length === 0)
     return (
-      <Box sx={{ p: 4, textAlign: "center" }}>
-        <Typography variant="h5" mb={2}>
-          Seu carrinho está vazio.
+      <Box
+        sx={{
+          p: 4,
+          textAlign: "center",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+          color: "text.secondary",
+        }}
+      >
+        <RemoveShoppingCartIcon sx={{ fontSize: 80, opacity: 0.3 }} />
+        <Typography variant="h6" fontWeight="medium">
+          Seu carrinho está vazio
         </Typography>
-        <Button variant="contained" onClick={voltarParaProdutos}>
-          Voltar para Produtos
+        <Typography variant="body2">
+          Que tal explorar nossos produtos e adicionar algo?
+        </Typography>
+        <Button variant="contained" onClick={voltarParaProdutos} sx={{ mt: 2 }}>
+          Voltar para produtos
         </Button>
       </Box>
     );
@@ -191,10 +205,11 @@ export default function Checkout() {
                     },
                   }}
                 >
-                  R$ {produto.price.toLocaleString("pt-BR", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                  R${" "}
+                  {produto.price.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </Typography>
               </Stack>
 
@@ -287,15 +302,16 @@ export default function Checkout() {
                     },
                   }}
                 >
-                  Total: R$ {(produto.price * quantity).toLocaleString("pt-BR", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+                  Total: R${" "}
+                  {(produto.price * quantity).toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </Typography>
 
                 <IconButton
                   color="error"
-                  onClick={() => removerDoCarrinho(produto)}
+                  onClick={() => removerItem(produto.id)}
                 >
                   <DeleteIcon />
                 </IconButton>

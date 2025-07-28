@@ -87,7 +87,13 @@ export default function Thanks() {
                     {quantity}
                   </Box>{" "}
                   &times;{" "}
-                  <Box component="span">R$ {produto.price.toFixed(2)}</Box>
+                  <Box component="span">
+                    R${" "}
+                    {produto.price.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </Box>
                 </Typography>
 
                 <Typography
@@ -96,6 +102,7 @@ export default function Thanks() {
                   R${" "}
                   {(produto.price * quantity).toLocaleString("pt-BR", {
                     minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
                   })}
                 </Typography>
 

@@ -18,8 +18,9 @@ export default function Header() {
   const root = useRef(null);
   const scope = useRef(null);
 
-  const logout = () => navigate("/");
-  const checkout = () => navigate("/checkout");
+  const handleClickLogout = () => navigate("/");
+  const handleClickCheckout = () => navigate("/checkout");
+  const handleClickProducts = () => navigate("/products");
 
   useEffect(() => {
     scope.current = createScope({ root }).add(() => {
@@ -39,18 +40,25 @@ export default function Header() {
   return (
     <AppBar position="static" color="primary" elevation={2} ref={root}>
       <Toolbar>
-        <IconButton edge="start" color="inherit" sx={{ mr: 1 }}>
-          <StorefrontIcon fontSize="large" className="logo" />
-        </IconButton>
+        <Box
+          display="flex"
+          alignItems="center"
+          sx={{ cursor: "pointer" }}
+          onClick={handleClickProducts}
+        >
+          <IconButton edge="start" color="inherit" sx={{ mr: 1 }}>
+            <StorefrontIcon fontSize="large" className="logo" />
+          </IconButton>
 
-        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          Shopcart
-        </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            ShopCart
+          </Typography>
+        </Box>
 
         <Button
           variant="outlined"
           startIcon={<ShoppingBagIcon />}
-          onClick={checkout}
+          onClick={handleClickCheckout}
           sx={{
             position: "absolute",
             top: 16,
@@ -103,7 +111,7 @@ export default function Header() {
         <Button
           variant="outlined"
           startIcon={<LogoutIcon />}
-          onClick={logout}
+          onClick={handleClickLogout}
           sx={{
             position: "absolute",
             top: 16,

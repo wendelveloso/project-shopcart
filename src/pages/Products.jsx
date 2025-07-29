@@ -234,6 +234,7 @@ export default function Products() {
                   alignItems: "center",
                   overflow: "hidden",
                   transition: "all 0.3s ease-in-out",
+                  height: 30
                 }}
               >
                 {feedbackAdicao[produto.id] ? (

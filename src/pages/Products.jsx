@@ -54,12 +54,15 @@ export default function Products() {
   const handleAdicionar = (produto) => {
     adicionarAoCarrinho(produto);
     setFeedbackAdicao((prev) => ({ ...prev, [produto.id]: true }));
-
     setAnimando((prev) => ({ ...prev, [produto.id]: true }));
 
     setTimeout(() => {
       setFeedbackAdicao((prev) => ({ ...prev, [produto.id]: false }));
     }, 1000);
+
+    setTimeout(() => {
+      setAnimando((prev) => ({ ...prev, [produto.id]: false }));
+    }, 1500);
   };
 
   const produtosFiltrados = produtos
@@ -234,7 +237,7 @@ export default function Products() {
                   alignItems: "center",
                   overflow: "hidden",
                   transition: "all 0.3s ease-in-out",
-                  height: 30
+                  height: 30,
                 }}
               >
                 {feedbackAdicao[produto.id] ? (

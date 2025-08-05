@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import { useCart } from "../contexts/CartContext";
+import { useEffect } from "react";
 
 export default function Thanks() {
   const navigate = useNavigate();
@@ -18,6 +19,10 @@ export default function Thanks() {
     limparCarrinho();
     navigate("/products");
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <Box
